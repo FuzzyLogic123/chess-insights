@@ -1,9 +1,3 @@
-<template>
-    <div>
-        engineEvaluation: {{ engineEvaluation }}
-    </div>
-</template>
-
 <script setup>
 
 const STOCKFISH_DEPTH = 7;
@@ -91,3 +85,19 @@ const processEngineResponse = (messageData) => {
 }
 
 </script>
+
+
+<template>
+    <div class="test">
+        +{{ engineEvaluation / 100 }}
+    </div>
+</template>
+
+<style>
+.test {
+    height: 20rem;
+    font-size: 3rem;
+    background-color: white;
+    text-align: center;
+}
+</style>
