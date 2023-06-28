@@ -1,14 +1,19 @@
-<script setup>
+<script setup lang="ts">
+
+interface EngineEvaluation {
+    type: string;
+    value: number;
+}
 
 const STOCKFISH_DEPTH = 7;
 let engineEvaluation = ref(0);
 
 const wasmSupported = typeof WebAssembly === 'object' && WebAssembly.validate(Uint8Array.of(0x0, 0x61, 0x73, 0x6d, 0x01, 0x00, 0x00, 0x00));
 
-const stockfish = new Worker(wasmSupported ? './lib/stockfish/stockfish.wasm.js' : './lib/stockfish/stockfish.js');
+const stockfish = new Worker(wasmSupported ? '/lib/stockfish/stockfish.wasm.js' : '/lib/stockfish/stockfish.js');
 
 stockfish.addEventListener('message', function (e) {
-    // console.log(e.data);
+    console.log(e.data);
     const engineResponse = processEngineResponse(e.data);
     if (engineResponse) {
         console.log(engineResponse.value);
@@ -22,13 +27,16 @@ stockfish.postMessage('ucinewgame')
 stockfish.postMessage('position startpos e4 e5 kf3')
 stockfish.postMessage(`go depth ${STOCKFISH_DEPTH}`)
 
-const getEvaluation = (messageData) => {
+const getEvaluation = (messageData: string): EngineEvaluation | null => {
     // STOCKFISH WILL SHOW ADVANTAGE TO CURRENT PLAYER (ADJUST THIS LATER ON)
     if (!messageData.startsWith("info")) { 
         return null;
     }
 
-    let evaluation = {};
+    let evaluation: EngineEvaluation = {
+        type: "",
+        value: 0,
+    };
     let splittedText = messageData.split(" ");
     if (splittedText[0] == "info") {
         for (let n = 0; n < splittedText.length; n++) {
@@ -42,9 +50,11 @@ const getEvaluation = (messageData) => {
     } else if (splittedText[0] == "bestmove") {
         return evaluation;
     }
+
+    return null;
 }
 
-const getBestMove = (messageData) => {
+const getBestMove = (messageData: string) => {
     if (!messageData.startsWith("bestmove")) {
         return null;
     }
@@ -55,14 +65,14 @@ const getBestMove = (messageData) => {
     }
 }
 
-const hasReachedRequiredDepth = (messageData) => {
+const hasReachedRequiredDepth = (messageData: string) => {
     const splitText = messageData.split(" ");
     if (splitText.includes("bestmove")) {
         return true;
     }
     for (let n = 0; n < splitText.length; n++) {
         if (splitText[n] == "depth") {
-            if (splitText[n + 1] == STOCKFISH_DEPTH) {
+            if (parseInt(splitText[n + 1]) == STOCKFISH_DEPTH) {
                 return true;
             }
         }
@@ -70,7 +80,7 @@ const hasReachedRequiredDepth = (messageData) => {
     return false;
 }
 
-const processEngineResponse = (messageData) => {
+const processEngineResponse = (messageData: string) => {
     if (!hasReachedRequiredDepth(messageData)) {
         return null;
     }

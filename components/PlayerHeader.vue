@@ -1,18 +1,22 @@
-<script setup>
+<script setup lang="ts">
 
+defineProps<{
+  username?: string
+  name?: string
+}>()
 
 </script>
 
 <template>
     <div class="player-header-component v5-section"><img height="83" width="83" alt=""
-            src="~/assets/images/sample-pfp.jpeg">
+            src="/assets/images/sample-pfp.jpeg">
 
         <div class="player-header-wrap">
             <div class="username-header">
                 <div class="player-header-title">CT</div>
-                <div class="username">anonymousK</div>
+                <div class="username">{{ username }}</div>
             </div>
-            <div class="player-header-subheader">Snekith Karywasam</div>
+            <div class="player-header-subheader">{{ name }}</div>
         </div>
     </div>
 </template>

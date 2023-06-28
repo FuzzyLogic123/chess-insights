@@ -1,19 +1,25 @@
-<template>
-    <div class="container">
-        <Header />
+<script setup lang="ts">
 
-        <PlayerHeader />
+const username = ref("");
+const router = useRouter();
 
-        <Stockfish />
-
-    </div>
-</template>
-
-<style>
-
-.container {
-    width: 100%;
-    max-width: 80rem;
-    margin: 0 auto;
+const submitUsername = () => {
+    if (username.value === "") {
+        return;
+    }
+    router.push({
+        path: "/insights/" + username.value
+    })
 }
-</style>
+
+
+</script>
+
+<template>
+
+    <input placeholder="chess.com username" v-model="username"/>
+
+    <button @click="submitUsername" :disabled="username.length === 0">Submit</button>
+
+
+</template>
