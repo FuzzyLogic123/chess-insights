@@ -7,12 +7,8 @@
         <Header />
 
         <PlayerHeader :username="'anonymousK'" :name="'Snekith Karywasm'"/>
-
-        <Stockfish />
-
-        <BarChart />
-
-        <Header />
+        <!-- <Stockfish /> -->
+        <Overview />
     </div>
 </template>
 
