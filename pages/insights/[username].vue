@@ -10,6 +10,9 @@
 
         <Stockfish />
 
+        <BarChart />
+
+        <Header />
     </div>
 </template>
 
