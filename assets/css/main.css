@@ -1,20 +1,65 @@
 body {
-    --globalPrimaryFont: -apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,Helvetica,Arial,sans-serif;
-    --globalColorThemeFull: #fff;
-    --globalBackground: rgba(0,0,0,.2);
-    --globalColorThemeHighToMid: hsla(0,0%,100%,.72);
-    --globalColorThemeFullToMid: hsla(0,0%,100%,.72);
+  --globalPrimaryFont: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui,
+    Helvetica, Arial, sans-serif;
 
-    background-color: #312e2b;
-    font-family: var(--globalPrimaryFont);
-    font-size: 1.4rem;
-    line-height: 1.43;
-    margin: 0;
-    padding: 0;
+  --globalBackground: rgba(0, 0, 0, 0.2);
+  --globalBackgroundOpaque: #262421;
+  --globalSecondaryBackground: rgba(0, 0, 0, 0.14);
+  --globalTertiaryBackground: rgba(0, 0, 0, 0.18);
+  --globalAccentBackground: hsla(0, 0%, 100%, 0.14);
+  --globalSecondaryAccentBackground: hsla(0, 0%, 100%, 0.05);
+  --globalSiteBackground: #312e2b;
+  --subtleButtonBackground: hsla(0, 0%, 100%, 0.16);
+  --globalBorder: hsla(0, 0%, 100%, 0.1);
+  --globalGray: hsla(0, 0%, 100%, 0.08);
+  --globalGraySoft: hsla(0, 0%, 100%, 0.08);
+  --globalColorThemeFull: #fff;
+  --globalColorThemeHigh: hsla(0, 0%, 100%, 0.85);
+  --globalColorThemeMid: hsla(0, 0%, 100%, 0.72);
+  --globalColorThemeLow: hsla(0, 0%, 100%, 0.5);
+  --globalColorThemeLower: hsla(0, 0%, 100%, 0.2);
+  --globalColorThemeLink: #52b1dc;
+  --globalColorThemeBlueToWhite: #fff;
+  --globalColorThemeBlueToMid: hsla(0, 0%, 100%, 0.72);
+  --globalColorThemeBlueToMidHover: hsla(0, 0%, 100%, 0.85);
+  --globalColorThemeBlueToHigh: hsla(0, 0%, 100%, 0.85);
+  --globalColorThemeBlueToHighHover: #fff;
+  --globalColorThemeFullToMid: hsla(0, 0%, 100%, 0.72);
+  --globalColorThemeHighToMid: hsla(0, 0%, 100%, 0.72);
+  --globalColorNeutral50: rgba(0, 0, 0, 0.1);
+  --globalColorNeutral100: rgba(0, 0, 0, 0.2);
+  --globalColorNeutral200: rgba(0, 0, 0, 0.4);
+  --globalOverlayBackground: #262421;
+  --globalColorWin: #96bc4b;
+  --globalColorDraw: hsla(0, 0%, 100%, 0.72);
+  --globalColorLoss: #cf4846;
+  --globalColorSuccess: #96bc4b;
+  --globalColorDanger: #cf4846;
+
+  background-color: #312e2b;
+  font-family: var(--globalPrimaryFont);
+  font-size: 1.4rem;
+  line-height: 1.43;
+  margin: 0;
+  padding: 0;
 }
 
-
 html {
-    box-sizing: border-box;
-    font-size: 62.5%;
+  box-sizing: border-box;
+  font-size: 62.5%;
+}
+
+@font-face {
+  font-family: Chess V3;
+  src: url("/assets/fonts/chessglyph-v3.cece6a99.woff2");
+}
+
+.icon-font-chess {
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  display: inline-block;
+  font-family: Chess V3;
+  font-weight: 400;
+  line-height: 1;
+  text-align: center;
 }

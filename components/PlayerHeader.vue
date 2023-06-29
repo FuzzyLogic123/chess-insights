@@ -21,7 +21,7 @@ defineProps<{
     </div>
 </template>
 
-<style>
+<style scoped>
 .player-header-component {
     align-items: center;
     display: flex;
