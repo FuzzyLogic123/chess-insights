@@ -22,9 +22,7 @@
                     33,321
                 </div>
 
-
                 <BarBreakdown />
-
 
             </div>
             <BarChart />
