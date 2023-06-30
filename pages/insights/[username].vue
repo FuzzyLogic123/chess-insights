@@ -1,43 +1,8 @@
 <script setup lang="ts">
-import { Moves } from 'utils/parsePgn';
 
-// import { parsePgn } from '@/utils/parsePgn.ts';
+import { Archives, Games, Game } from '@/utils/types/gameData';
+import { parsePgn } from '@/utils/ts/parsePgn';
 
-type Archives = {
-    archives: string[]
-}
-
-interface Game {
-    url: string;
-    pgn: string;
-    time_control: string;
-    end_time: number;
-    rated: boolean;
-    tcn: string;
-    uuid: string;
-    initial_setup: string;
-    fen: string;
-    start_time: number;
-    time_class: string;
-    rules: string;
-    white: Player;
-    black: Player;
-    moves: Moves;
-}
-
-interface Player {
-    rating: number;
-    result: string;
-    "@id": string;
-    username: string;
-    uuid: string;
-}
-
-type Games = {
-    games: Game[];
-};
-
-// type Moves = string[];
 
 const route = useRoute()
 let isLoading = ref(true);
@@ -66,7 +31,7 @@ const fetchData = async () => {
 }
 
 onMounted(async () => {
-    // fetchData()
+    fetchData()
 });
 
 
