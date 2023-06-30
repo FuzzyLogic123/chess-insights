@@ -7,6 +7,7 @@ import { parsePgn } from '@/utils/ts/parsePgn';
 const route = useRoute()
 let isLoading = ref(true);
 let playerData = ref<Game[]>([]);
+let username = ref<string>(route.params.username as string)
 
 const fetchData = async () => {
     const { data, error } = await useAsyncData(() => $fetch(`https://api.chess.com/pub/player/${route.params.username}/games/archives`));
@@ -14,6 +15,7 @@ const fetchData = async () => {
         console.log(error.value)
         return
     }
+
 
     const archives = data.value as Archives
     for (const archive of archives.archives) {
@@ -27,7 +29,20 @@ const fetchData = async () => {
         }
     }
     console.log(playerData.value)
+    username.value = getCapitalisedUsername(playerData.value)
+    console.log(username.value)
     isLoading.value = false
+}
+
+function getCapitalisedUsername(playerData: Game[]): string {
+    if (playerData.length > 0) {
+        if (playerData[0].white.username.toLowerCase() === username.value.toLowerCase()) {
+            return playerData[0].white.username
+        } else {
+            return playerData[0].black.username
+        }
+    }
+    return username.value
 }
 
 onMounted(async () => {
@@ -43,7 +58,7 @@ onMounted(async () => {
         loading
     </div>
 
-    <PlayerStats :username="route.params.username as string" v-else />
+    <PlayerStats :username="username" v-else />
 </template>
 
 <style></style>
