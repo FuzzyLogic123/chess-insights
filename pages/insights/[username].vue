@@ -8,17 +8,20 @@ const route = useRoute()
 let isLoading = ref(true);
 let playerData = ref<Game[]>([]);
 let username = ref<string>(route.params.username as string)
+const progress = ref(0);
 
 const fetchData = async () => {
+    // @ts-ignore random error appears from adding svg in LoadingIndicator component (makes literally zero fucking sense)
     const { data, error } = await useAsyncData(() => $fetch(`https://api.chess.com/pub/player/${route.params.username}/games/archives`));
     if (error.value) {
         console.log(error.value)
         return
     }
 
-
     const archives = data.value as Archives
-    for (const archive of archives.archives) {
+    for (let i = 0; i < archives.archives.length; i++) {
+        const archive = archives.archives[i];
+        progress.value = i / archives.archives.length;
         const { data } = await useAsyncData(() => $fetch(archive))
         const games = data.value as Games
         if (games.games.length > 0) {
@@ -46,7 +49,7 @@ function getCapitalisedUsername(playerData: Game[]): string {
 }
 
 onMounted(async () => {
-    fetchData()
+    fetchData();
 });
 
 
@@ -55,7 +58,7 @@ onMounted(async () => {
 
 <template>
     <div v-if="isLoading" style="color: white;">
-        loading
+        <LoadingIndicator :progress="progress"/>
     </div>
 
     <PlayerStats :username="username" v-else />
