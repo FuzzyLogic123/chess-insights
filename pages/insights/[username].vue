@@ -70,7 +70,7 @@ function getCapitalisedUsername(playerData: Game[]): string {
 }
 
 onMounted(async () => {
-    // fetchData();
+    fetchData();
 });
 
 
