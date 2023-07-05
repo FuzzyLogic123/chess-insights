@@ -1,3 +1,5 @@
+export const sum = (array: number[]) => array.reduce((partialSum, a) => partialSum + a, 0);
+
 
 
 export function shuffleArray(array: any[]) {

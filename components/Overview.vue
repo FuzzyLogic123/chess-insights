@@ -1,3 +1,45 @@
+<script setup lang="ts">
+import { Game } from 'utils/types/gameData';
+
+const props = defineProps<{
+    playerData: Game[],
+    username: string
+}>()
+
+const winLossDraw = computed(() => {
+    let wins = 0;
+    let draws = 0;
+    let losses = 0;
+
+    for (let i = 0; i < props.playerData.length; i++) {
+        const game = props.playerData[i];
+        const winningCodes = ["win"];
+        const drawCodes = ["agreed", "repetition", "stalemate", "insufficient", "50move", "timevsinsufficient"]
+        const lossCodes = ["timeout", "resigned", "lose", "abandoned", "kingofthehill", "threecheck", "bughousepartnerlose", "checkmated"]
+
+        const usersResult = game.white.username === props.username ? game.white.result : game.black.result
+
+        if (winningCodes.includes(usersResult)) {
+            wins++;
+        }
+        else if (drawCodes.includes(usersResult)) {
+            draws++;
+        } else if (lossCodes.includes(usersResult)) {
+            losses++;
+        }
+        else {
+            console.error(`Code: ${usersResult} not accounted for`);
+        }
+    }
+
+    return [wins, losses, draws]
+});
+
+
+
+
+</script>
+
 <template>
     <section class="v5-section">
         <div data-id="overview" class="insights-header-component">
@@ -18,11 +60,10 @@
 
                 <div class="icon-block-row">
                     <span class="icon-font-chess chess-board icon-block-icon">i</span>
-
-                    33,321
+                    {{ playerData.length }}
                 </div>
 
-                <BarBreakdown />
+                <BarBreakdown :wld="winLossDraw" />
 
             </div>
             <BarChart />
@@ -119,4 +160,5 @@
     display: flex;
     font-size: 4rem;
     font-weight: 800;
-}</style>
+}
+</style>

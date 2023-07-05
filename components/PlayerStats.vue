@@ -1,7 +1,10 @@
 <script setup lang="ts">
+import { Game } from 'utils/types/gameData';
+
 
 defineProps<{
-  username: string
+  username: string,
+  playerData: Game[]
 }>()
 
 
@@ -13,7 +16,7 @@ defineProps<{
 
         <PlayerHeader :username="username" :name="'Snekith Karywasm'"/>
         <!-- <Stockfish /> -->
-        <Overview />
+        <Overview :player-data="playerData" :username="username"/>
     </div>
 </template>
 

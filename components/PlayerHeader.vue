@@ -2,7 +2,7 @@
 
 defineProps<{
   username?: string
-  name?: string
+  name?: string,
 }>()
 
 </script>

@@ -2,7 +2,7 @@
 
 import { Archives, Games, Game } from '@/utils/types/gameData';
 import { parsePgn } from '@/utils/ts/parsePgn';
-import { shuffleArray } from '@/utils/ts/shuffleArray';
+import { shuffleArray } from '@/utils/ts/utilities';
 
 
 const route = useRoute()
@@ -88,7 +88,7 @@ onMounted(async () => {
         </h1>
     </div>
 
-    <PlayerStats :username="username" v-else />
+    <PlayerStats :username="username" :player-data="playerData" v-else />
 </template>
 
 <style>
