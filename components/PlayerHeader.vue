@@ -1,19 +1,21 @@
 <script setup lang="ts">
 
 defineProps<{
-  username?: string
+  username: string
   name?: string,
+  profilePic: string,
+  title?: string
 }>()
 
 </script>
 
 <template>
     <div class="player-header-component v5-section"><img height="83" width="83" alt=""
-            src="/assets/images/sample-pfp.jpeg">
+            :src="profilePic">
 
         <div class="player-header-wrap">
             <div class="username-header">
-                <div class="player-header-title">CT</div>
+                <div v-if="title !== ''" class="player-header-title">{{ title }}</div>
                 <div class="username">{{ username }}</div>
             </div>
             <div class="player-header-subheader">{{ name }}</div>

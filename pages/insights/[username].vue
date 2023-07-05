@@ -1,6 +1,6 @@
 <script setup lang="ts">
 
-import { Archives, Games, Game } from '@/utils/types/gameData';
+import { Archives, Games, Game, PlayerInfo } from '@/utils/types/apiData';
 import { parsePgn } from '@/utils/ts/parsePgn';
 import { shuffleArray } from '@/utils/ts/utilities';
 
@@ -9,6 +9,11 @@ const route = useRoute()
 let isLoading = ref(true);
 let playerData = ref<Game[]>([]);
 let username = ref<string>(route.params.username as string)
+let name = ref("");
+let profileUrl = ref("");
+let title = ref("");
+
+
 const progress = ref(0);
 
 let loadingTextIndex = ref(0);
@@ -22,6 +27,22 @@ setInterval(() => {
     }
 }, 3000);
 
+const getUserAccountInfo = async () => {
+    //@ts-ignore
+    const { data, error } = await useAsyncData(() => $fetch(`https://api.chess.com/pub/player/${username.value}`));
+    if (error.value) {
+        console.log(error.value)
+        return
+    }
+    const userInfo = data.value as PlayerInfo; 
+    profileUrl.value = userInfo.avatar
+    name.value = userInfo.name
+
+    if (userInfo.title) {
+        title.value = userInfo.title
+    }
+}
+
 const fetchData = async () => {
     const localStorageData = localStorage.getItem(username.value.toLowerCase())
     if (localStorageData !== null) {
@@ -30,6 +51,7 @@ const fetchData = async () => {
         return
     }
 
+    getUserAccountInfo();
     // @ts-ignore random error appears from adding svg in LoadingIndicator component (makes literally zero fucking sense)
     const { data, error } = await useAsyncData(() => $fetch(`https://api.chess.com/pub/player/${username.value}/games/archives`));
     if (error.value) {
@@ -88,7 +110,7 @@ onMounted(async () => {
         </h1>
     </div>
 
-    <PlayerStats :username="username" :player-data="playerData" v-else />
+    <PlayerStats :name="name" :profilePic="profileUrl" :username="username" :player-data="playerData" :title="title" v-else />
 </template>
 
 <style>

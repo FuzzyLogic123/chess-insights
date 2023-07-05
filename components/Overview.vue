@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Game } from 'utils/types/gameData';
+import { Game } from 'utils/types/apiData';
 
 const props = defineProps<{
     playerData: Game[],
@@ -161,4 +161,4 @@ const winLossDraw = computed(() => {
     font-size: 4rem;
     font-weight: 800;
 }
-</style>
+</style>utils/types/apiData

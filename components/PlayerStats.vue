@@ -1,10 +1,13 @@
 <script setup lang="ts">
-import { Game } from 'utils/types/gameData';
+import { Game } from 'utils/types/apiData';
 
 
 defineProps<{
   username: string,
-  playerData: Game[]
+  playerData: Game[],
+  name: string,
+  profilePic: string,
+  title?: string
 }>()
 
 
@@ -14,7 +17,7 @@ defineProps<{
     <div class="container">
         <Header />
 
-        <PlayerHeader :username="username" :name="'Snekith Karywasm'"/>
+        <PlayerHeader :username="username" :name="name" :profilePic="profilePic" :title="title"/>
         <!-- <Stockfish /> -->
         <Overview :player-data="playerData" :username="username"/>
     </div>
@@ -27,4 +30,4 @@ defineProps<{
     max-width: 80rem;
     margin: 0 auto;
 }
-</style>
+</style>utils/types/apiData
