@@ -112,5 +112,6 @@ onMounted(async () => {
     text-align: center;
     padding: 1em;
     height: 3.5em;
+    max-width: 15em;
 }
 </style>
