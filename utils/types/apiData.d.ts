@@ -34,7 +34,7 @@ interface PlayerInfo {
     player_id: number;
     "@id": string;
     url: string;
-    name: string;
+    name?: string;
     username: string;
     followers: number;
     country: string;

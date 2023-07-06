@@ -34,9 +34,12 @@ const getUserAccountInfo = async () => {
         console.log(error.value);
         return
     }
-    
-    const userInfo = data.value as PlayerInfo; 
-    name.value = userInfo.name
+
+    const userInfo = data.value as PlayerInfo;
+
+    if (userInfo.name) {
+        name.value = userInfo.name
+    }
     
     if (userInfo.avatar) {
         profileUrl.value = userInfo.avatar
