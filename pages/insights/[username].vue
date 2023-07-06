@@ -31,12 +31,16 @@ const getUserAccountInfo = async () => {
     //@ts-ignore
     const { data, error } = await useAsyncData(() => $fetch(`https://api.chess.com/pub/player/${username.value}`));
     if (error.value) {
-        console.log(error.value)
+        console.log(error.value);
         return
     }
+    
     const userInfo = data.value as PlayerInfo; 
-    profileUrl.value = userInfo.avatar
     name.value = userInfo.name
+    
+    if (userInfo.avatar) {
+        profileUrl.value = userInfo.avatar
+    }
 
     if (userInfo.title) {
         title.value = userInfo.title
@@ -44,6 +48,8 @@ const getUserAccountInfo = async () => {
 }
 
 const fetchData = async () => {
+    await getUserAccountInfo();
+
     const localStorageData = localStorage.getItem(username.value.toLowerCase())
     if (localStorageData !== null) {
         playerData.value = JSON.parse(localStorageData);
@@ -51,7 +57,6 @@ const fetchData = async () => {
         return
     }
 
-    getUserAccountInfo();
     // @ts-ignore random error appears from adding svg in LoadingIndicator component (makes literally zero fucking sense)
     const { data, error } = await useAsyncData(() => $fetch(`https://api.chess.com/pub/player/${username.value}/games/archives`));
     if (error.value) {

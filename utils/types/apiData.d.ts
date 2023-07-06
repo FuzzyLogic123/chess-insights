@@ -30,7 +30,7 @@ interface Player {
 }
 
 interface PlayerInfo {
-    avatar: string;
+    avatar?: string;
     player_id: number;
     "@id": string;
     url: string;

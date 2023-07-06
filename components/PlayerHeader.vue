@@ -1,17 +1,20 @@
 <script setup lang="ts">
 
 defineProps<{
-  username: string
-  name?: string,
-  profilePic: string,
-  title?: string
+    username: string
+    name?: string,
+    profilePic: string,
+    title?: string
 }>()
 
 </script>
 
 <template>
-    <div class="player-header-component v5-section"><img height="83" width="83" alt=""
-            :src="profilePic">
+    <div class="player-header-component v5-section">
+
+
+        <img v-if="profilePic" height="83" width="83" alt="" :src="profilePic">
+        <img v-else src="https://www.chess.com/bundles/web/images/user-image.007dad08.svg" class="profile-pic"/>
 
         <div class="player-header-wrap">
             <div class="username-header">
@@ -73,5 +76,9 @@ defineProps<{
     padding: 0.2rem 0.3rem;
 }
 
+.profile-pic {
+    height: 83px;
+    width: 83px;
+}
 
 </style>
