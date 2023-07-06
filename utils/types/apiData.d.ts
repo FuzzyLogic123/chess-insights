@@ -52,6 +52,11 @@ type Games = {
 };
 
 
+interface AccountInfo {
+    username: string,
+    name?: string,
+    profilePicUrl?: string,
+    title?: string
+}
 
-
-export { Games, Game, Player, Archives, PlayerInfo }
+export { Games, Game, Player, Archives, PlayerInfo, AccountInfo }

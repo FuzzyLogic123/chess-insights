@@ -1,10 +1,9 @@
 <script setup lang="ts">
+import { AccountInfo } from 'utils/types/apiData';
+
 
 defineProps<{
-    username: string
-    name?: string,
-    profilePic: string,
-    title?: string
+    accountInfo: AccountInfo
 }>()
 
 </script>
@@ -13,15 +12,15 @@ defineProps<{
     <div class="player-header-component v5-section">
 
 
-        <img v-if="profilePic" height="83" width="83" alt="" :src="profilePic">
+        <img v-if="accountInfo.profilePicUrl" height="83" width="83" alt="" :src="accountInfo.profilePicUrl">
         <img v-else src="https://www.chess.com/bundles/web/images/user-image.007dad08.svg" class="profile-pic"/>
 
         <div class="player-header-wrap">
             <div class="username-header">
-                <div v-if="title !== ''" class="player-header-title">{{ title }}</div>
-                <div class="username">{{ username }}</div>
+                <div v-if="accountInfo.title" class="player-header-title">{{ accountInfo.title }}</div>
+                <div class="username">{{ accountInfo.username }}</div>
             </div>
-            <div class="player-header-subheader">{{ name }}</div>
+            <div class="player-header-subheader">{{ accountInfo.name }}</div>
         </div>
     </div>
 </template>

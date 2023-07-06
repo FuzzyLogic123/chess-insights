@@ -1,17 +1,18 @@
 <script setup lang="ts">
 
-import { Archives, Games, Game, PlayerInfo } from '@/utils/types/apiData';
+import { Archives, Games, Game, PlayerInfo, AccountInfo } from '@/utils/types/apiData';
 import { parsePgn } from '@/utils/ts/parsePgn';
 import { shuffleArray } from '@/utils/ts/utilities';
 
 
 const route = useRoute()
 let isLoading = ref(true);
-let playerData = ref<Game[]>([]);
-let username = ref<string>(route.params.username as string)
-let name = ref("");
-let profileUrl = ref("");
-let title = ref("");
+let playerGames = ref<Game[]>([]);
+
+let accountInfo = ref<AccountInfo>({
+    username: route.params.username as string,
+});
+
 
 
 const progress = ref(0);
@@ -29,7 +30,7 @@ setInterval(() => {
 
 const getUserAccountInfo = async () => {
     //@ts-ignore
-    const { data, error } = await useAsyncData(() => $fetch(`https://api.chess.com/pub/player/${username.value}`));
+    const { data, error } = await useAsyncData(() => $fetch(`https://api.chess.com/pub/player/${accountInfo.value.username}`));
     if (error.value) {
         console.log(error.value);
         return
@@ -38,30 +39,30 @@ const getUserAccountInfo = async () => {
     const userInfo = data.value as PlayerInfo;
 
     if (userInfo.name) {
-        name.value = userInfo.name
+        accountInfo.value.name = userInfo.name
     }
     
     if (userInfo.avatar) {
-        profileUrl.value = userInfo.avatar
+        accountInfo.value.profilePicUrl = userInfo.avatar
     }
 
     if (userInfo.title) {
-        title.value = userInfo.title
+        accountInfo.value.title = userInfo.title
     }
 }
 
 const fetchData = async () => {
     await getUserAccountInfo();
 
-    const localStorageData = localStorage.getItem(username.value.toLowerCase())
+    const localStorageData = localStorage.getItem(accountInfo.value.username.toLowerCase())
     if (localStorageData !== null) {
-        playerData.value = JSON.parse(localStorageData);
+        playerGames.value = JSON.parse(localStorageData);
         isLoading.value = false;
         return
     }
 
     // @ts-ignore random error appears from adding svg in LoadingIndicator component (makes literally zero fucking sense)
-    const { data, error } = await useAsyncData(() => $fetch(`https://api.chess.com/pub/player/${username.value}/games/archives`));
+    const { data, error } = await useAsyncData(() => $fetch(`https://api.chess.com/pub/player/${accountInfo.value.username}/games/archives`));
     if (error.value) {
         console.log(error.value)
         return
@@ -76,27 +77,27 @@ const fetchData = async () => {
         if (games.games.length > 0) {
             for (let i = 0; i < games.games.length; i++) {
                 games.games[i].moves = parsePgn(games.games[i].pgn)
-                playerData.value.push(games.games[i])
+                playerGames.value.push(games.games[i])
             }
         }
     }
-    console.log(playerData.value)
-    username.value = getCapitalisedUsername(playerData.value)
+    console.log(playerGames.value)
+    accountInfo.value.username = getCapitalisedUsername(playerGames.value)
     isLoading.value = false
 
     // won't work for most data (too large), have to store results rather than raw data in local storage
-    localStorage.setItem(username.value.toLowerCase(), JSON.stringify(playerData.value))
+    localStorage.setItem(accountInfo.value.username.toLowerCase(), JSON.stringify(playerGames.value))
 }
 
-function getCapitalisedUsername(playerData: Game[]): string {
-    if (playerData.length > 0) {
-        if (playerData[0].white.username.toLowerCase() === username.value.toLowerCase()) {
-            return playerData[0].white.username
+function getCapitalisedUsername(playerGames: Game[]): string {
+    if (playerGames.length > 0) {
+        if (playerGames[0].white.username.toLowerCase() === accountInfo.value.username.toLowerCase()) {
+            return playerGames[0].white.username
         } else {
-            return playerData[0].black.username
+            return playerGames[0].black.username
         }
     }
-    return username.value
+    return accountInfo.value.username
 }
 
 onMounted(async () => {
@@ -118,7 +119,7 @@ onMounted(async () => {
         </h1>
     </div>
 
-    <PlayerStats :name="name" :profilePic="profileUrl" :username="username" :player-data="playerData" :title="title" v-else />
+    <PlayerStats :account-info="accountInfo" :player-games="playerGames" v-else />
 </template>
 
 <style>

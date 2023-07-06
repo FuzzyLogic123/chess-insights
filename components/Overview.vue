@@ -2,7 +2,7 @@
 import { Game } from 'utils/types/apiData';
 
 const props = defineProps<{
-    playerData: Game[],
+    playerGames: Game[],
     username: string
 }>()
 
@@ -11,8 +11,8 @@ const winLossDraw = computed(() => {
     let draws = 0;
     let losses = 0;
 
-    for (let i = 0; i < props.playerData.length; i++) {
-        const game = props.playerData[i];
+    for (let i = 0; i < props.playerGames.length; i++) {
+        const game = props.playerGames[i];
         const winningCodes = ["win"];
         const drawCodes = ["agreed", "repetition", "stalemate", "insufficient", "50move", "timevsinsufficient"]
         const lossCodes = ["timeout", "resigned", "lose", "abandoned", "kingofthehill", "threecheck", "bughousepartnerlose", "checkmated"]
@@ -60,7 +60,7 @@ const winLossDraw = computed(() => {
 
                 <div class="icon-block-row">
                     <span class="icon-font-chess chess-board icon-block-icon">i</span>
-                    {{ playerData.length }}
+                    {{ playerGames.length }}
                 </div>
 
                 <BarBreakdown :wld="winLossDraw" />
