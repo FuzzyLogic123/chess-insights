@@ -1,32 +1,50 @@
+<script setup lang="ts">
+import { sum } from '@/utils/ts/utilities'
+
+const props = defineProps<{
+    wld: number[]
+}>()
+
+console.log(props.wld);
+console.log(sum(props.wld))
+
+const winPercentage = computed(() => Math.round(props.wld[0] / sum(props.wld) * 1000) / 10)
+const lossPercentage = computed(() => Math.round(props.wld[1] / sum(props.wld) * 1000) / 10)
+const drawPercentage = computed(() => Math.round(props.wld[2] / sum(props.wld) * 1000) / 10)
+
+</script>
+
 <template>
     <div class="wdl-breakdown-container">
         <div class="wdl-breakdown-gameBreakdown">
             <div>
                 <div class="wdl-block-row"><span class="icon-font-chess square-plus wdl-block-win wdl-block-icon"></span>
-                    <span>77.3%</span>
+                    <span>{{ winPercentage }}%</span>
                 </div>
-                <div class="wdl-breakdown-subText">25,748 Won</div>
+                <div class="wdl-breakdown-subText">{{ wld[0] }} Won</div>
             </div>
             <div>
                 <div class="wdl-block-row"><span class="icon-font-chess square-equal wdl-block-icon"></span>
-                    <span>9.9%</span>
+                    <span>{{ drawPercentage }}%</span>
                 </div>
-                <div class="wdl-breakdown-subText">3,285 Drawn</div>
+                <div class="wdl-breakdown-subText">{{ wld[2] }} Drawn</div>
             </div>
             <div>
                 <div class="wdl-block-row"><span class="icon-font-chess square-minus wdl-block-loss wdl-block-icon"></span>
-                    <span>12.9%</span>
+                    <span>{{ lossPercentage }}%</span>
                 </div>
-                <div class="wdl-breakdown-subText">4,288 Lost</div>
+                <div class="wdl-breakdown-subText">{{ wld[1] }} Lost</div>
             </div>
         </div>
-        <div class="tricolor-bar-small-container"><span class="tricolor-bar-small-win" style="flex-grow: 77.3;"></span><span
-                style="flex-grow: 9.9;"></span><span class="tricolor-bar-small-loss" style="flex-grow: 12.9;"></span></div>
+        <div class="tricolor-bar-small-container">
+            <span class="tricolor-bar-small-win" :style="`flex-grow: ${winPercentage};`" />
+            <span :style="`flex-grow: ${drawPercentage};`" />
+            <span class="tricolor-bar-small-loss" :style="`flex-grow: ${lossPercentage};`" />
+        </div>
     </div>
 </template>
 
 <style>
-
 /* flex grow to decide how much of the bar each segment takes up */
 
 .tricolor-bar-small-container .tricolor-bar-small-loss {
@@ -121,6 +139,4 @@
     margin-top: -0.5rem;
     text-align: end;
 }
-
-
 </style>

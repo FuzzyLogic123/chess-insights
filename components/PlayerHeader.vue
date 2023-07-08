@@ -1,22 +1,26 @@
 <script setup lang="ts">
+import { AccountInfo } from 'utils/types/apiData';
+
 
 defineProps<{
-  username?: string
-  name?: string
+    accountInfo: AccountInfo
 }>()
 
 </script>
 
 <template>
-    <div class="player-header-component v5-section"><img height="83" width="83" alt=""
-            src="/assets/images/sample-pfp.jpeg">
+    <div class="player-header-component v5-section">
+
+
+        <img v-if="accountInfo.profilePicUrl" height="83" width="83" alt="" :src="accountInfo.profilePicUrl">
+        <img v-else src="https://www.chess.com/bundles/web/images/user-image.007dad08.svg" class="profile-pic"/>
 
         <div class="player-header-wrap">
             <div class="username-header">
-                <div class="player-header-title">CT</div>
-                <div class="username">{{ username }}</div>
+                <div v-if="accountInfo.title" class="player-header-title">{{ accountInfo.title }}</div>
+                <div class="username">{{ accountInfo.username }}</div>
             </div>
-            <div class="player-header-subheader">{{ name }}</div>
+            <div class="player-header-subheader">{{ accountInfo.name }}</div>
         </div>
     </div>
 </template>
@@ -71,5 +75,9 @@ defineProps<{
     padding: 0.2rem 0.3rem;
 }
 
+.profile-pic {
+    height: 83px;
+    width: 83px;
+}
 
 </style>
